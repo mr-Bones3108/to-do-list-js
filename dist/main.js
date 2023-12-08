@@ -1,0 +1,1 @@
+(()=>{console.log("Namaste Bhai Jan");const e=document.querySelector("#content"),t=document.createElement("h1");t.textContent="Hello I will make a Todo List using Odin Project",e.appendChild(t)})();
