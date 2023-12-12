@@ -1,10 +1,8 @@
 :root {
-    --font: #fff;
-    --background: #fff;
-    --header-background: #fff;
-    --nav-background: #fff;
-    --main-background: #fff;
-    --footer-background: #fff
+    --primary-dark: #333;
+    --secondary-dark: #444;
+    --primary-light: #eee;
+    --secondary-light: #ddd;
   }
   
   *,
@@ -13,7 +11,9 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    border: 1px solid black;
+    
+  /* helpful when creating basic structure */
+  /* border: 1px solid black; */
   }
   
   html {
@@ -23,6 +23,9 @@
   
   body {
     font-size: 1.6rem;
+    font-family: "Roboto", sans-serif;
+    color: var(--primary-dark);
+    background-color: var(--primary-light);
   }
   
   header {
@@ -34,17 +37,36 @@
     color: inherit;
     font-family: inherit;
     font-size: inherit;
-    /* border: none; */
+    border: none;
     outline: none;
     cursor: pointer;
     padding: 1rem;
   }
+
+  /* Header */
 
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 2rem;
+    background-color: var(--primary-dark);
+    color: var(--primary-light);
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .fa-check-double {
+    font-size: 4rem;
+  }
+  
+  .page-name {
+    margin-left: 1rem;
+    font-family: "Yusei Magic", sans-serif;
   }
   
   .user-panel {
@@ -55,6 +77,14 @@
   
   .user-name {
     margin-right: 2rem;
+  }
+
+  .button-sign-out {
+    background-color: rgba(173, 85, 85, 1);
+  }
+  
+  .button-sign-out:hover {
+    background-color: rgba(173, 85, 85, 0.9);
   }
   
   /* Main */
@@ -67,11 +97,22 @@
   .nav {
     padding: 1rem;
     flex: 1;
+    height: 100%;
+    background-color: var(--secondary-light);
   }
   
-  .nav button {
+  .nav {
     width: 100%;
+  }
+  
+  .button-nav {
+    width: 100%;
+    background-color: var(--secondary-light);
     text-align: left;
+  }
+  
+  .button-nav:hover {
+    background-color: #ccc;
   }
   
   .default-project {
@@ -84,16 +125,25 @@
   
   .project-preview {
     flex: 3;
-    padding: 1rem;
+    margin-top: 2rem;
+    margin-left: 5rem;
   }
   
   .project-preview h1 {
-    padding: 1rem;
+    padding: 0 1rem;
   }
   
   .task {
+    display: flex;
+    align-items: center;
     padding: 1rem;
   }
+
+.fa-circle,
+.fa-check-circle {
+  margin-right: 1rem;
+  font-size: 2.4rem;
+}
   
   /* Footer */
   
@@ -105,9 +155,10 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    background-color: var(--primary-dark);
   }
   
-  .fab {
+  .fa-github {
     margin-left: 1rem;
     color: black;
   }
