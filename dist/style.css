@@ -63,7 +63,6 @@
     font-size: 4rem;
   }
   .page-name {
-    margin-left: 2rem;
     font-family: "Yusei Magic", sans-serif;
     font-size: 4rem;
   }
@@ -79,8 +78,13 @@
   }
   
   .button-options:hover {
-    color: #bbb;
-  }
+    color: #ccc;
+}
+
+.fa-bars {
+  margin-right: 0;
+}
+
   
   .options-panel {
     display: none;
@@ -88,10 +92,10 @@
     top: 7rem;
     right: 2rem;
     padding: 2rem;
-    border: 1px solid #999;
+    border: 1px solid #aaa;
     border-radius: 5px;
-    background-color: var(--secondary-light);
-    color: #222;
+    background-color: #ddd;
+    color: #444;
     font-size: 1.6rem;
   }
   
@@ -108,8 +112,8 @@
   
   .button-sign-out {
     width: 100%;
-    border: 1px solid #555;
-    background-color: #eb9393;
+  border: 1px solid #b86060;
+  background-color: #eb9393;
   }
   
   .button-sign-out:hover {
@@ -156,6 +160,7 @@
     align-items: center;
     width: 100%;
     padding: 1rem;
+    background-color: var(--primary-light);
   }
   
   .button-task:hover {
