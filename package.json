@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "watch": "webpack --progress --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mr-Bones3108/to-do-list-js.git"
   },
-  "author": "",
+  "author": "mrBones",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mr-Bones3108/to-do-list-js/issues"
