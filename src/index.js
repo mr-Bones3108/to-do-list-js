@@ -1,3 +1,4 @@
 // Just to check the working 
-import Task from "./modules/Task"
-import Project from "./modules/Project"
+import UI from "./modules/UI"
+
+const ui = new UI()

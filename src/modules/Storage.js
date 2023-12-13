@@ -1,3 +1,1 @@
-// module
-
-class Storage {}
+export default class Storage {}

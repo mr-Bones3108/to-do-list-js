@@ -23,6 +23,3 @@ export default class Task {
     }
 }
 
-
-
-// factory implementation

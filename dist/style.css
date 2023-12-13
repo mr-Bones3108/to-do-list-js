@@ -82,6 +82,7 @@
   
   .nav {
     flex: 1;
+    max-width: 300px;
     padding: 2rem;
     background-color: var(--secondary-light);
   }
@@ -106,6 +107,7 @@
   }
   .project-preview {
     flex: 5;
+    max-width: 900px;
     padding: 2rem 4rem;
   }
   .project-preview h1 {
