@@ -26,11 +26,14 @@ export default class Project {
         return this.tasks.find((task) => (task.name = taskName));
     }
 
-    getTask(){
+    getTasks(){
         return this.tasks;
     }
 
 }
+
+
+
 
 
 
