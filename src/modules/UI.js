@@ -1,69 +1,79 @@
 import TodoList from "./TodoList.js";
 
 export default class UI {
-  constructor() {
-    this.todoList = new TodoList();
-    //load saved data
-
-    this.addProjectButton = document.getElementById("button-add-project");
-    this.addProjectButton.addEventListener("click", () => {
-      console.log("Add Project button clicked!");
-      this.addProject();
-      
-  });
-
-    
-
-    this.projectDefaultButtons = document.querySelectorAll(
-      "[data-default-project-button]"
-    );
-    console.log(this.projectDefaultButtons)
-    this.projectDefaultButtons.forEach(button=>
-      button.addEventListener("click", this.openProject)
-    );
-
-    this.projectButtons = document.querySelectorAll("[data-project-button]");
-    console.log(this.projectButtons)
-    this.projectButtons.forEach((button) =>
-      button.addEventListener("click", this.handleProjectButton)
-    );
-
-    this.taskButtons = document.querySelectorAll("[data-task-button]");
-    console.log(this.taskButtons)
-    this.taskButtons.forEach((button) =>
-      button.addEventListener("click", this.handleTaskButton)
-    );
+  static loadWebsite() {
+    this.initDefaultButtons();
+    //const todoList = Storage.getTodoList()
+    //todolist/projects foreach createProject(project)
+    //todolist/project/tasks foreach createTask(task)
   }
 
-  addProject() {
+  static initDefaultButtons() {
+    const inboxProjectsButton = document.getElementById("button-index");
+    const todayProjectsButton = document.getElementById("button-today");
+    const weekProjectsButton = document.getElementById("button-this-week");
+    const addProjectButton = document.getElementById("button-add-project");
+    const addTaskButton = document.getElementById("button-add-task");
+
+    inboxProjectsButton.addEventListener("click", UI.openInboxProjects);
+    todayProjectsButton.addEventListener("click", UI.openTodayProjects);
+    weekProjectsButton.addEventListener("click", UI.openWeekProjects);
+    addTaskButton.addEventListener("click", UI.addTask);
+    addProjectButton.addEventListener("click", UI.addProject);
+  }
+
+  static openInboxProjects() {
+    //for other random tasks which can't be assign as a project
+    console.log("Inside openInboxProjects")
+  }
+
+  static openTodayProjects() {
+    //get all today tasks
+  }
+
+  static openWeekProjects() {
+    //get all this week tasks
+  }
+
+  static addProject() {
     //show popup
     //cancel - hide popup
     //add - create popup
+    //create element and addEventListener (handleProjectNutton)
     //add to todolist
     //add to UI
     //save local
     //hide popup
   }
 
-  addTask() {
+  static addTask() {
     //show popup
     //cancel - hide popup
+    //create element and addEventListener (handleTaskButton)
     //add to todolist/project
     //add to UI
     //save local
     //hide popup
   }
 
+  createProject(project) {
+    //creates an element in DOM
+  }
+
+  createTask(task) {
+    //creates an element in DOM
+  }
+
   handleProjectButton() {
     //name clicked -> openProject
-    //options clicked -> setProject
+    //options clicked -> openProjectSettings
   }
 
   openProject() {
     //update UI
   }
 
-  setProject() {
+  openProjectSettings() {
     //show popup
     //rename clicked -> renameProject
     //remove clicked -> removeProject
