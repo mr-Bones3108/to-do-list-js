@@ -6,7 +6,7 @@ export default class TodoList {
       if (this.projects.indexOf(project) > 0) return;
       this.projects.push(project);
     }
-    removeProject(projectName) {
+    deleteProject(projectName) {
       const project = this.projects.find(
         (project) => project.name === projectName
       );

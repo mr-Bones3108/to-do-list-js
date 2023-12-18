@@ -2,14 +2,20 @@ import Storage from "./Storage.js";
 
 export default class UI {
   static load() {
-    UI.renderContent(Storage.loadData());
+    UI.renderContent();
     UI.initRenderedButtons();
     UI.initDefaultButtons();
+    UI.openInboxProjects();
   }
 
-  static renderContent(todoList) {}
+  static renderContent() {}
 
-  static initRenderedButtons() {}
+  static initRenderedButtons() {
+    const projectButtons = document.querySelectorAll("[data-project-button]");
+    projectButtons.forEach((projectButton) =>
+    projectButton.addEventListener("click", UI.handleProjectButton)
+    );
+  }
 
   static initDefaultButtons() {
     const inboxProjectsButton = document.getElementById(
@@ -19,6 +25,7 @@ export default class UI {
       "button-today-projects"
     );
     const weekProjectsButton = document.getElementById("button-week-projects");
+
     const addProjectButton = document.getElementById("button-add-project");
     const addProjectPopupButton = document.getElementById(
       "button-add-project-popup"
@@ -45,7 +52,9 @@ export default class UI {
 
   // Default project button handlers
 
-  static openInboxProjects() {}
+  static openInboxProjects() {
+    //setup event listeners
+  }
 
   static openTodayProjects() {}
 
@@ -64,7 +73,9 @@ export default class UI {
     projectPopup.classList.remove("active");
 
     const projectInput = document.getElementById("input-add-project-popup");
+    console.log(projectInput.value)
     projectInput.value = "";
+  
 
     const addProjectButton = document.getElementById("button-add-project");
     addProjectButton.classList.remove("active");
@@ -79,7 +90,7 @@ export default class UI {
   static createProject(name) {
     const userProjects = document.getElementById("user-projects");
     userProjects.innerHTML += ` 
-      <button class="button-project">
+      <button class="button-project" data-project-button>
         <div class="left-project-panel">
           <i class="fas fa-tasks"></i>
           ${name}
@@ -88,6 +99,7 @@ export default class UI {
           <i class="fas fa-ellipsis-h"></i>
         </div>
       </button>`;
+      UI.initRenderedButtons();
   }
 
   // Add task button handlers
@@ -132,15 +144,26 @@ export default class UI {
 
   // Project button handlers
 
-  static handleProjectButton() {}
+  static handleProjectButton(e) {
+    console.log(e)
+    if (e.target.classList.contains("fas")) {
+      UI.openProjectSettings();
+      return;
+    }
+    UI.openProject();
+  }
 
-  static openProject() {}
+  static openProject() {
+    console.log("project");
+  }
 
-  static openProjectSettings() {}
+  static openProjectSettings() {
+    console.log("settings");
+  }
 
   static renameProject() {}
 
-  static removeProject() {}
+  static deleteProject() {}
 
   // Tasks button handlers
 
@@ -148,7 +171,7 @@ export default class UI {
 
   static setTaskCompleted() {}
 
-  static removeTask() {}
+  static deleteTask() {}
 
   static renameTask() {}
 
