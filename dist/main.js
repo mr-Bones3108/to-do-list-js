@@ -16,7 +16,17 @@
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_UI__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/UI */ \"./src/modules/UI.js\");\n\r\n\r\ndocument.addEventListener(\"DOMContentLoaded\", _modules_UI__WEBPACK_IMPORTED_MODULE_0__[\"default\"].load());\n\n//# sourceURL=webpack://to-do-list/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_Project__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/Project */ \"./src/modules/Project.js\");\n/* harmony import */ var _modules_Storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/Storage */ \"./src/modules/Storage.js\");\n/* harmony import */ var _modules_TodoList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/TodoList */ \"./src/modules/TodoList.js\");\n/* harmony import */ var _modules_UI__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/UI */ \"./src/modules/UI.js\");\n\r\n\r\n\r\n\r\n\r\n  \r\n\r\ndocument.addEventListener(\"DOMContentLoaded\", _modules_UI__WEBPACK_IMPORTED_MODULE_3__[\"default\"].load());\n\n//# sourceURL=webpack://to-do-list/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/modules/Project.js":
+/*!********************************!*\
+  !*** ./src/modules/Project.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Project)\n/* harmony export */ });\n// factory\r\nclass Project {\r\n    constructor(name) {\r\n        this.name = name;\r\n        this.tasks = [];\r\n    }\r\n\r\n    setName(name) {\r\n        this.name = name;\r\n    }\r\n\r\n    getName() {\r\n        return this.name;\r\n    }\r\n\r\n    addTask(task) {\r\n        if (this.tasks.indexOf(task) > 0) return;\r\n        this.tasks.push(task);\r\n    }\r\n\r\n    deleteTask(taskName) {\r\n        const task = this.tasks.find((task) => task.name === taskName);\r\n        this.tasks.splice(this.tasks.indexOf(task), 1);\r\n    }\r\n\r\n    getTask(taskName) {\r\n        return this.tasks.find((task) => (task.name = taskName));\r\n    }\r\n\r\n    getTasks(){\r\n        return this.tasks;\r\n    }\r\n\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack://to-do-list/./src/modules/Project.js?");
 
 /***/ }),
 
@@ -26,7 +36,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _mod
   \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Storage)\n/* harmony export */ });\nclass Storage {\r\n    static loadData() {}\r\n    static addProject() {}\r\n    static deleteProject() {}\r\n    static addTask() {}\r\n    static deleteTask() {}\r\n  }\n\n//# sourceURL=webpack://to-do-list/./src/modules/Storage.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Storage)\n/* harmony export */ });\n/* harmony import */ var _TodoList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TodoList */ \"./src/modules/TodoList.js\");\n\r\n\r\nclass Storage {\r\n  static saveTodoList(data) {\r\n    localStorage.setItem(\"todoList\", JSON.stringify(data));\r\n  }\r\n\r\n  static getTodoList() {\r\n    return Object.assign(\r\n      new _TodoList__WEBPACK_IMPORTED_MODULE_0__[\"default\"](),\r\n      JSON.parse(localStorage.getItem(\"todoList\"))\r\n    );\r\n  }\r\n\r\n  static addProject(project) {\r\n    let todoList = new _TodoList__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\r\n    if (Storage.getTodoList() !== null)\r\n      todoList = Object.assign(new _TodoList__WEBPACK_IMPORTED_MODULE_0__[\"default\"](), Storage.getTodoList());\r\n    todoList.addProject(project);\r\n    Storage.saveTodoList(todoList);\r\n  }\r\n\r\n  static deleteProject(projectName) {\r\n    const todoList = Object.assign(new _TodoList__WEBPACK_IMPORTED_MODULE_0__[\"default\"](), Storage.getTodoList());\r\n    todoList.deleteProject(projectName);\r\n    Storage.saveTodoList(todoList);\r\n  }\r\n\r\n  static addTask(projectName, task) {\r\n    const todoList = Object.assign(new _TodoList__WEBPACK_IMPORTED_MODULE_0__[\"default\"](), Storage.getTodoList());\r\n    todoList.getProject(projectName).addTask(task);\r\n    Storage.saveTodoList(todoList);\r\n  }\r\n\r\n  static removeTask(projectName, taskName) {\r\n    const todoList = Object.assign(new _TodoList__WEBPACK_IMPORTED_MODULE_0__[\"default\"](), Storage.getTodoList());\r\n    todoList.getProject(projectName).deleteTask(taskName);\r\n    Storage.saveTodoList(todoList);\r\n  }\r\n}\n\n//# sourceURL=webpack://to-do-list/./src/modules/Storage.js?");
+
+/***/ }),
+
+/***/ "./src/modules/TodoList.js":
+/*!*********************************!*\
+  !*** ./src/modules/TodoList.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ TodoList)\n/* harmony export */ });\nclass TodoList {\r\n    constructor() {\r\n      this.projects = [];\r\n    }\r\n    addProject(project) {\r\n      if (this.projects.indexOf(project) > 0) return;\r\n      this.projects.push(project);\r\n    }\r\n    deleteProject(projectName) {\r\n      const project = this.projects.find(\r\n        (project) => project.name === projectName\r\n      );\r\n      this.projects.splice(this.projects.indexOf(project), 1);\r\n    }\r\n  \r\n    getProject(projectName) {\r\n      return this.projects.find((project) => project.name === projectName);\r\n    }\r\n  \r\n    getProjects() {\r\n      return this.projects;\r\n    }\r\n  }\n\n//# sourceURL=webpack://to-do-list/./src/modules/TodoList.js?");
 
 /***/ }),
 

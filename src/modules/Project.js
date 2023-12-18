@@ -14,6 +14,7 @@ export default class Project {
     }
 
     addTask(task) {
+        if (this.tasks.indexOf(task) > 0) return;
         this.tasks.push(task);
     }
 
