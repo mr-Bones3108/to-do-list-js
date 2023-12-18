@@ -49,9 +49,9 @@ export default class UI {
     addProjectButton.addEventListener("click", UI.openAddProjectPopup);
     addProjectPopupButton.addEventListener("click", UI.addProject);
     cancelProjectPopupButton.addEventListener("click", UI.closeAddProjectPopup);
-    addTaskButton.addEventListener("click", UI.openAddTaskPopup);
-    addTaskPopupButton.addEventListener("click", UI.addTask);
-    cancelTaskPopupButton.addEventListener("click", UI.closeAddTaskPopup);
+    // addTaskButton.addEventListener("click", UI.openAddTaskPopup);
+    // addTaskPopupButton.addEventListener("click", UI.addTask);
+    // cancelTaskPopupButton.addEventListener("click", UI.closeAddTaskPopup);
   }
 
   // Default project button handlers
