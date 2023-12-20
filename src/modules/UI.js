@@ -4,27 +4,27 @@ import Project from "./Project";
 import Task from "./Task";
 
 export default class UI {
+  // LOADING CONTENT
+
   static load() {
-    UI.renderProjects();
-    UI.initProjectButtons();
+    UI.loadProjects();
+    UI.initAddProjectButtons();
   }
 
-  // RENDERING CONTENT
-
-  static renderProjects() {
+  static loadProjects() {
     Storage.getTodoList()
       .getProjects()
       .forEach((project) => UI.createProject(project.name));
   }
 
-  static renderTasks(projectName) {
+  static loadTasks(projectName) {
     Storage.getTodoList()
       .getProject(projectName)
       .getTasks()
       .forEach((task) => UI.createTask(task.name, task.dueDate));
   }
 
-  static renderProject(projectName) {
+  static loadProjectContent(projectName) {
     const projectPreview = document.getElementById("project-preview");
     projectPreview.innerHTML = `
     <h1>${projectName}</h1>
@@ -51,9 +51,20 @@ export default class UI {
           </button>
         </div>
       </div>`;
-    UI.renderTasks(projectName);
+    UI.loadTasks(projectName);
     UI.initAddTaskButtons();
+    UI.initTaskButtons();
   }
+
+  static clear() {
+    const userProjects = document.getElementById("user-projects");
+    userProjects.textContent = "";
+
+    const projectPreview = document.getElementById("project-preview");
+    projectPreview.textContent = "";
+  }
+
+  // CREATING CONTENT
 
   static createProject(name) {
     const userProjects = document.getElementById("user-projects");
@@ -73,6 +84,7 @@ export default class UI {
   static createTask(name, dueDate) {
     const tasksList = document.getElementById("tasks-list");
     tasksList.innerHTML += `
+      <button class="button-task" data-task-button>
         <div class="left-task-panel">
           <i class="far fa-circle"></i>
           <p class="task-content">${name}</p>
@@ -82,18 +94,12 @@ export default class UI {
           <i class="fas fa-times"></i>
         </div>
       </button>`;
+    UI.initTaskButtons();
   }
 
-  // PROJECT EVENT LISTENERS
+  // ADD PROJECT EVENT LISTENERS
 
-  static initProjectButtons() {
-    const inboxProjectsButton = document.getElementById(
-      "button-inbox-projects"
-    );
-    const todayProjectsButton = document.getElementById(
-      "button-today-projects"
-    );
-    const weekProjectsButton = document.getElementById("button-week-projects");
+  static initAddProjectButtons() {
     const addProjectButton = document.getElementById("button-add-project");
     const addProjectPopupButton = document.getElementById(
       "button-add-project-popup"
@@ -101,23 +107,12 @@ export default class UI {
     const cancelProjectPopupButton = document.getElementById(
       "button-cancel-project-popup"
     );
-    const projectButtons = document.querySelectorAll("[data-project-button]");
-    inboxProjectsButton.addEventListener("click", UI.openInboxTasks);
-    todayProjectsButton.addEventListener("click", UI.openTodayTasks);
-    weekProjectsButton.addEventListener("click", UI.openWeekTasks);
+
     addProjectButton.addEventListener("click", UI.openAddProjectPopup);
     addProjectPopupButton.addEventListener("click", UI.addProject);
     cancelProjectPopupButton.addEventListener("click", UI.closeAddProjectPopup);
-    projectButtons.forEach((projectButton) =>
-      projectButton.addEventListener("click", UI.handleProjectButton)
-    );
   }
-  static openInboxTasks() {
-    //setup event listeners
-    //store in localStorage as Inbox
-  }
-  static openTodayTasks() {}
-  static openWeekTasks() {}
+
   static openAddProjectPopup() {
     const projectPopup = document.getElementById("add-project-popup");
     projectPopup.classList.add("active");
@@ -141,29 +136,52 @@ export default class UI {
     UI.closeAddProjectPopup();
   }
 
+  // PROJECT EVENT LISTENERS
+
+  static initProjectButtons() {
+    const inboxProjectsButton = document.getElementById(
+      "button-inbox-projects"
+    );
+    const todayProjectsButton = document.getElementById(
+      "button-today-projects"
+    );
+    const weekProjectsButton = document.getElementById("button-week-projects");
+    const projectButtons = document.querySelectorAll("[data-project-button]");
+
+    inboxProjectsButton.addEventListener("click", UI.openInboxTasks);
+    todayProjectsButton.addEventListener("click", UI.openTodayTasks);
+    weekProjectsButton.addEventListener("click", UI.openWeekTasks);
+    projectButtons.forEach((projectButton) =>
+      projectButton.addEventListener("click", UI.handleProjectButton)
+    );
+  }
+
+  static openInboxTasks() {
+    //setup event listeners
+    //store in localStorage as Inbox
+    //maybe start page with inbox
+  }
+
+  static openTodayTasks() {}
+
+  static openWeekTasks() {}
+
   static handleProjectButton(e) {
     const projectName = this.children[0].children[1].textContent;
     if (e.target.classList.contains("fas")) {
       UI.deleteProject(projectName);
       return;
     }
-    UI.renderProject(projectName);
+    UI.loadProjectContent(projectName);
   }
 
   static deleteProject(projectName) {
     UI.clear();
     Storage.deleteProject(projectName);
-    UI.renderProjects();
+    UI.loadProjects();
   }
 
-  static clear() {
-    const userProjects = document.getElementById("user-projects");
-    userProjects.textContent = "";
-    const projectPreview = document.getElementById("project-preview");
-    projectPreview.textContent = "";
-  }
-
-  // TASK EVENT LISTENERS
+  // ADD TASK EVENT LISTENERS
 
   static initAddTaskButtons() {
     const addTaskButton = document.getElementById("button-add-task");
@@ -171,14 +189,12 @@ export default class UI {
     const cancelTaskPopupButton = document.getElementById(
       "button-cancel-task-popup"
     );
-    const taskButtons = document.querySelectorAll("[data-task-button]");
+
     addTaskButton.addEventListener("click", UI.openAddTaskPopup);
     addTaskPopupButton.addEventListener("click", UI.addTask);
     cancelTaskPopupButton.addEventListener("click", UI.closeAddTaskPopup);
-    taskButtons.forEach((taskButton) =>
-      taskButton.addEventListener("click", UI.handleTaskButton)
-    );
   }
+
   static openAddTaskPopup() {
     const addTaskPopup = document.getElementById("add-task-popup");
     addTaskPopup.classList.add("active");
@@ -207,14 +223,19 @@ export default class UI {
     UI.closeAddTaskPopup();
   }
 
-  // Tasks button handlers
+  // TASK EVENT LISTENERS
+
+  static initTaskButtons() {
+    const taskButtons = document.querySelectorAll("[data-task-button]");
+    taskButtons.forEach((taskButton) =>
+      taskButton.addEventListener("click", UI.handleTaskButton)
+    );
+  }
 
   static handleTaskButton(e) {
-    console.log("ask")
     const project = document.getElementById("project-preview");
     const projectName = project.children[0].textContent;
     const taskName = this.children[0].children[1].textContent;
-
     if (e.target.classList.contains("fa-circle")) {
       UI.setTaskCompleted(projectName, taskName);
     } else if (e.target.classList.contains("task-content")) {
@@ -225,26 +246,23 @@ export default class UI {
       UI.deleteTask(projectName, taskName);
     }
   }
-
   static setTaskCompleted(projectName, taskName) {
     console.log("setCompleted");
     Storage.deleteTask(projectName, taskName);
     UI.clear();
-    UI.renderProjects();
-    UI.renderTasks(projectName);
+    UI.loadProjects();
+    UI.loadProjectContent(projectName);
   }
 
   static renameTask(projectName, taskName) {
     console.log("renameTask");
   }
-
   static setTaskDate(projectName, taskName) {
     console.log("setTaskDate");
   }
-
   static deleteTask(projectName, taskName) {
     console.log("deleteTask");
     Storage.deleteTask(projectName, taskName);
-    UI.renderTasks(projectName);
+    UI.loadTasks(projectName);
   }
 }
