@@ -4,12 +4,10 @@ import Project from "./Project";
 import Task from "./Task";
 export default class UI {
   // LOADING CONTENT
-
   static loadHomepage() {
     UI.initAddProjectButtons();
     UI.loadProjects();
   }
-
   static loadProjects() {
     Storage.getTodoList()
       .getProjects()
@@ -51,7 +49,6 @@ export default class UI {
     UI.initAddTaskButtons();
     UI.loadTasks(projectName);
   }
-
   static createProject(name) {
     const userProjects = document.getElementById("user-projects");
     userProjects.innerHTML += ` 
@@ -64,10 +61,8 @@ export default class UI {
           <i class="fas fa-times"></i>
         </div>
       </button>`;
-
     UI.initProjectButtons();
   }
-
   static createTask(name, dueDate) {
     const tasksList = document.getElementById("tasks-list");
     tasksList.innerHTML += `
@@ -77,16 +72,17 @@ export default class UI {
           <p class="task-content">${name}</p>
         </div>
         <div class="right-task-panel">
+          <input type="date" />
           <div class="due-date">${dueDate}</div>
           <i class="fas fa-times"></i>
         </div>
       </button>`;
-
     UI.initTaskButtons();
   }
 
   static clear() {
     UI.clearProjects();
+    UI.clearProjectPreview();
     UI.clearTasks();
   }
 
@@ -95,13 +91,16 @@ export default class UI {
     userProjects.textContent = "";
   }
 
+  static clearProjectPreview() {
+    const projectPreview = document.getElementById("project-preview");
+    projectPreview.textContent = "";
+  }
+
   static clearTasks() {
     const tasksList = document.getElementById("tasks-list");
     tasksList.textContent = "";
   }
-
   // ADD PROJECT EVENT LISTENERS
-
   static initAddProjectButtons() {
     const addProjectButton = document.getElementById("button-add-project");
     const addProjectPopupButton = document.getElementById(
@@ -160,7 +159,6 @@ export default class UI {
   }
   static openTodayTasks() {}
   static openWeekTasks() {}
-
   static handleProjectButton(e) {
     const projectName = this.children[0].children[1].textContent;
     if (e.target.classList.contains("fa-times")) {
@@ -171,9 +169,13 @@ export default class UI {
   }
 
   static deleteProject(projectName) {
+    const projectPreview = document.getElementById("project-preview");
+    const currentProjectName = projectPreview.children[0].textContent;
+
     Storage.deleteProject(projectName);
     UI.clearProjects();
     UI.loadProjects();
+    if (projectName === currentProjectName) UI.clearProjectPreview();
   }
 
   // ADD TASK EVENT LISTENERS
@@ -209,7 +211,6 @@ export default class UI {
       taskName !== "" &&
       !Storage.getTodoList().getProject(projectName).contains(taskName)
     ) {
-      
       Storage.addTask(projectName, new Task(taskName));
       UI.createTask(taskName, "No date");
     }
@@ -226,7 +227,6 @@ export default class UI {
     const project = document.getElementById("project-preview");
     const projectName = project.children[0].textContent;
     const taskName = this.children[0].children[1].textContent;
-
     if (e.target.classList.contains("fa-circle")) {
       UI.setTaskCompleted(projectName, taskName);
       return;
@@ -244,14 +244,12 @@ export default class UI {
       return;
     }
   }
-
   static setTaskCompleted(projectName, taskName) {
     console.log("setCompleted");
     Storage.deleteTask(projectName, taskName);
     UI.clearTasks();
     UI.loadTasks(projectName);
   }
-
   static renameTask(projectName, taskName) {
     console.log("renameTask");
     Storage.renameTask(projectName, taskName, "New name");
