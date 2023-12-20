@@ -103,10 +103,10 @@ export default class UI {
     UI.openProject(projectName);
   }
 
-  static openProject(project) {
+  static openProject(projectName) {
     const projectPreview = document.getElementById("project-preview");
     projectPreview.innerHTML = `
-    <h1>${project}</h1>
+    <h1>${projectName}</h1>
       <div class="tasks-list" id="tasks-list"></div>
       <button class="button-add-task" id="button-add-task">
         <i class="fas fa-plus"></i>
@@ -130,6 +130,7 @@ export default class UI {
           </button>
         </div>
       </div>`;
+    UI.renderTasks(projectName);
     UI.initAddTaskButtons();
   }
 
@@ -209,6 +210,11 @@ export default class UI {
           <i class="fas fa-times"></i>
         </div>
       </button>`;
+  }
+
+  static renderTasks(projectName) {
+    const tasks = Storage.getTodoList().getProject(projectName).getTasks();
+    tasks.forEach((task) => UI.createTask(task.name, task.dueDate));
   }
 
   // Tasks button handlers
