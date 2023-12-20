@@ -131,8 +131,8 @@ export default class UI {
     const projectInput = document.getElementById("input-add-project-popup");
     const projectName = projectInput.value;
     if (projectName !== "" && !Storage.getTodoList().contains(projectName)) {
-      UI.createProject(projectName);
       Storage.addProject(new Project(projectName));
+      UI.createProject(projectName);
     }
     UI.closeAddProjectPopup();
   }
@@ -172,7 +172,7 @@ export default class UI {
 
   static deleteProject(projectName) {
     Storage.deleteProject(projectName);
-    UI.clear();
+    UI.clearProjects();
     UI.loadProjects();
   }
 
@@ -209,8 +209,9 @@ export default class UI {
       taskName !== "" &&
       !Storage.getTodoList().getProject(projectName).contains(taskName)
     ) {
-      UI.createTask(taskName, "No date");
+      
       Storage.addTask(projectName, new Task(taskName));
+      UI.createTask(taskName, "No date");
     }
     UI.closeAddTaskPopup();
   }
@@ -253,9 +254,15 @@ export default class UI {
 
   static renameTask(projectName, taskName) {
     console.log("renameTask");
+    Storage.renameTask(projectName, taskName, "New name");
+    UI.clearTasks();
+    UI.loadTasks(projectName);
   }
   static setTaskDate(projectName, taskName) {
     console.log("setTaskDate");
+    Storage.setTaskDate(projectName, taskName, "New date");
+    UI.clearTasks();
+    UI.loadTasks(projectName);
   }
   static deleteTask(projectName, taskName) {
     console.log("deleteTask");

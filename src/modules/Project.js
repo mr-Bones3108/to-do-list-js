@@ -28,12 +28,21 @@ export default class Project {
     getTask(taskName) {
         return Object.assign(
             new Task(),
-            this.tasks.find((task) => (task.name = taskName))
+            this.tasks.find((task) => task.name === taskName)
         );
     }
+    
 
     getTasks(){
         return this.tasks;
+    }
+
+    setTaskName(taskName, newTaskName) {
+        this.tasks.find((task) => task.name === taskName).name = newTaskName;
+    }
+    
+    setTaskDate(taskName, newDueDate) {
+        this.tasks.find((task) => task.name === taskName).dueDate = newDueDate;
     }
 
     contains(taskName){
