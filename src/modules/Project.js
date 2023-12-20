@@ -1,4 +1,6 @@
-// factory
+import Task from "./Task";
+
+
 export default class Project {
     constructor(name) {
         this.name = name;
@@ -24,11 +26,18 @@ export default class Project {
     }
 
     getTask(taskName) {
-        return this.tasks.find((task) => (task.name = taskName));
+        return Object.assign(
+            new Task(),
+            this.tasks.find((task) => (task.name = taskName))
+        );
     }
 
     getTasks(){
         return this.tasks;
+    }
+
+    contains(taskName){
+        return this.tasks.some((task)=> task.name === taskName)
     }
 
 }

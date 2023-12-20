@@ -1,5 +1,7 @@
 import Storage from "./Storage";
+import TodoList from "./TodoList";
 import Project from "./Project";
+import Task from "./Task";
 
 export default class UI {
   static load() {
@@ -70,7 +72,7 @@ export default class UI {
     const projectInput = document.getElementById("input-add-project-popup");
     const projectName = projectInput.value;
 
-    if (projectName !== "" && !Storage.getTodoList().getProject(projectName)) {
+    if (projectName !== "" && !Storage.getTodoList().contains(projectName)) {
       UI.createProject(projectName);
       Storage.addProject(new Project(projectName));
     }
@@ -132,9 +134,9 @@ export default class UI {
   }
 
   static deleteProject(projectName) {
-    Storage.deleteProject(projectName);
     UI.clear()
     UI.loadProjects();
+    Storage.deleteProject(projectName);
   }
 
   static clear() {
@@ -178,10 +180,22 @@ export default class UI {
   }
   static addTask() {
     const addTaskPopupInput = document.getElementById("input-add-task-popup");
-    if (addTaskPopupInput.value !== "")
-      UI.createTask(addTaskPopupInput.value, "No date");
+    const taskName = addTaskPopupInput.value;
+
+    const projectPreview = document.getElementById("project-preview");
+    const projectName = projectPreview.children[0].textContent;
+
+    if (
+      taskName !== "" &&
+      !Storage.getTodoList().getProject(projectName).contains(taskName)
+    ) {
+      UI.createTask(taskName, "No date");
+      Storage.addTask(projectName, new Task(taskName));
+    }
     UI.closeAddTaskPopup();
   }
+
+
   static createTask(name, dueDate) {
     const tasksList = document.getElementById("tasks-list");
     tasksList.innerHTML += `
