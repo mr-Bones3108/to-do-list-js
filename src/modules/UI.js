@@ -135,9 +135,10 @@ export default class UI {
   }
 
   static deleteProject(projectName) {
+    Storage.deleteProject(projectName);
     UI.clear()
     UI.loadProjects();
-    Storage.deleteProject(projectName);
+    
   }
 
   static clear() {
