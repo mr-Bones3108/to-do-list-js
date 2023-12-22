@@ -69,16 +69,15 @@ export default class UI {
       <button class="button-task" data-task-button>
         <div class="left-task-panel">
           <i class="far fa-circle"></i>
-          <p class="task-content">${name}</p>
+          <p class="task-content" id="task-content">${name}</p>
+          <input type="text" class="input-task-name" data-input-task-name>
         </div>
         <div class="right-task-panel">
-        <p class="due-date" id="due-date">${dueDate}</p>
+          <p class="due-date" id="due-date">${dueDate}</p>
+          <input type="date" class="input-due-date" data-input-due-date>
           <i class="fas fa-times"></i>
         </div>
-      </button>
-      <div class="due-date-popup" id="due-date-popup">
-        <input type="date" class="input-due-date" id="input-due-date" value="2020-11-11">
-      </div>`;
+      </button>`;
     UI.initTaskButtons();
   }
 
@@ -221,10 +220,21 @@ export default class UI {
   // TASK EVENT LISTENERS
   static initTaskButtons() {
     const taskButtons = document.querySelectorAll("[data-task-button]");
+    const taskNameInputs = document.querySelectorAll("[data-input-task-name");
+    const dueDateInputs = document.querySelectorAll("[data-input-due-date");
+
+
     taskButtons.forEach((taskButton) =>
       taskButton.addEventListener("click", UI.handleTaskButton)
     );
+    taskNameInputs.forEach((taskNameInput) =>
+      taskNameInput.addEventListener(UI.renameTask)
+    );
+    dueDateInputs.forEach((dueDateInput) =>
+      dueDateInput.addEventListener("click", UI.setTaskDate)
+    );
   }
+
   static handleTaskButton(e) {
     const project = document.getElementById("project-preview");
     const projectName = project.children[0].textContent;
@@ -234,7 +244,7 @@ export default class UI {
       return;
     }
     if (e.target.classList.contains("task-content")) {
-      UI.renameTask(projectName, taskName);
+      UI.openRenameInput(projectName, taskName);
       return;
     }
     if (e.target.classList.contains("due-date")) {
@@ -247,29 +257,56 @@ export default class UI {
     }
   }
   static setTaskCompleted(projectName, taskName) {
-    console.log("setCompleted");
     Storage.deleteTask(projectName, taskName);
     UI.clearTasks();
     UI.loadTasks(projectName);
   }
-  static renameTask(projectName, taskName) {
+  
+  static deleteTask(projectName, taskName) {
+    Storage.deleteTask(projectName, taskName);
+    UI.clearTasks();
+    UI.loadTasks(projectName);
+  }
+  static openRenameInput(projectName, taskName) {
+    // hide name
+    // show popup
+  }
+
+  static closeRenameInput() {
+    //hide popup
+    //show name
+  }
+
+  static renameTask() {
     console.log("renameTask");
     Storage.renameTask(projectName, taskName, "New name");
     UI.clearTasks();
     UI.loadTasks(projectName);
   }
-  static setTaskDate(e,projectName, taskName) {
-    console.log("setTaskDate");
+
+  static openSetDateInput() {}
+
+  static closeSetDateInput() {}
+
+
+   static setTaskDate(e, projectName, taskName) {
     const dueDatePopup = e.target.parentNode.parentNode.nextElementSibling;
+    console.log(dueDatePopup);
     dueDatePopup.classList.toggle("active");
-    Storage.setTaskDate(projectName, taskName, "New date");
+
+    const dueDateInput = dueDatePopup.children[0];
+    dueDateInput.addEventListener(
+      "change",
+      UI.updateDate(projectName, taskName)
+    );
+  }
+
+  static updateDate(projectName, taskName) {
+    const newDueDate = this.value;
+    console.log(newDueDate);
+    Storage.setTaskDate(projectName, taskName, newDueDate);
     // UI.clearTasks();
     // UI.loadTasks(projectName);
   }
-  static deleteTask(projectName, taskName) {
-    console.log("deleteTask");
-    Storage.deleteTask(projectName, taskName);
-    UI.clearTasks();
-    UI.loadTasks(projectName);
-  }
+  
 }
