@@ -6,11 +6,20 @@ export default class UI {
   static loadHomepage() {
     UI.initAddProjectButtons();
     UI.loadProjects();
+    UI.loadProjectContent("Inbox")
   }
   static loadProjects() {
     Storage.getTodoList()
       .getProjects()
-      .forEach((project) => UI.createProject(project.name));
+      .forEach((project) =>{
+        if(
+          project.name !== "Inbox" &&
+          project.name !== "Today" &&
+          project.name !== "This week"
+        ){
+          UI.createProject(project.name)
+        }
+      });
   }
   static loadTasks(projectName) {
     Storage.getTodoList()
@@ -149,12 +158,16 @@ export default class UI {
     );
   }
   static openInboxTasks() {
-    //setup event listeners
+    UI.loadProjectContent("Inbox")
     //store in localStorage as Inbox
     //maybe start page with inbox
   }
-  static openTodayTasks() {}
-  static openWeekTasks() {}
+  static openTodayTasks() {
+    UI.loadProjects("Today")
+  }
+  static openWeekTasks() {
+    UI.loadProjects("This week")
+  }
   static handleProjectButton(e) {
     const projectName = this.children[0].children[1].textContent;
     if (e.target.classList.contains("fa-times")) {
