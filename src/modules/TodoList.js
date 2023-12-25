@@ -8,36 +8,46 @@ export default class TodoList {
     this.projects.push(new Project("Today"));
     this.projects.push(new Project("This week"));
   }
+
   getProjects() {
     return this.projects;
   }
-  getProject(projectName) {
-    return this.projects.find((project) => project.name === projectName);
+
+  setProjects(projects) {
+    this.projects = projects;
   }
+
+  getProject(projectName) {
+    return this.projects.find((project) => project.getName() === projectName);
+  }
+
+  contains(projectName) {
+    return this.projects.some((project) => project.getName() === projectName);
+  }
+
   addProject(project) {
     if (this.projects.indexOf(project) > 0) return;
     this.projects.push(project);
   }
+
   deleteProject(projectName) {
     const project = this.projects.find(
-      (project) => project.name === projectName
+      (project) => project.getName() === projectName
     );
     this.projects.splice(this.projects.indexOf(project), 1);
-  }
-  contains(projectName) {
-    return this.projects.some((project) => project.name === projectName);
   }
 
   updateTodayProject() {
     this.getProject("Today").tasks = [];
+
     this.projects.forEach((project) => {
-      if (project.name === "Today" || project.name === "This week") return;
+      if (project.getName() === "Today" || project.getName() === "This week")
+        return;
 
       const todayTasks = project.getTasksToday();
       todayTasks.forEach((task) => {
-        const taskName = task.name + ` (${project.name})`;
-        if (this.getProject("Today").contains(taskName)) return;
-        this.getProject("Today").addTask(new Task(taskName, task.dueDate));
+        const taskName = task.getName() + ` (${project.getName()})`;
+        this.getProject("Today").addTask(new Task(taskName, task.getDate()));
       });
     });
   }
