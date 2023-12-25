@@ -287,6 +287,12 @@ if (projectName !== "Today" && projectName !== "This week") {
   static setTaskCompleted(taskButton) {
     const projectName = document.getElementById("project-name").textContent;
     const taskName = taskButton.children[0].children[1].textContent;
+
+    if (projectName === "Today" || projectName === "This week") {
+      const mainProjectName = taskName.split("(")[1].split(")")[0];
+      Storage.deleteTask(mainProjectName, taskName);
+    }
+
     Storage.deleteTask(projectName, taskName);
     UI.clearTasks();
     UI.loadTasks(projectName);
@@ -295,6 +301,12 @@ if (projectName !== "Today" && projectName !== "This week") {
     const projectName = document.getElementById("project-name").textContent;
     const taskName = taskButton.children[0].children[1].textContent;
     Storage.deleteTask(projectName, taskName);
+
+    if (projectName === "Today" || projectName === "This week") {
+      const mainProjectName = taskName.split("(")[1].split(")")[0];
+      Storage.deleteTask(mainProjectName, taskName);
+    }
+
     UI.clearTasks();
     UI.loadTasks(projectName);
   }
@@ -324,7 +336,18 @@ if (projectName !== "Today" && projectName !== "This week") {
       UI.closeRenameInput(this.parentNode.parentNode);
       return;
     }
-    Storage.renameTask(projectName, taskName, newTaskName);
+    if (projectName === "Today" || projectName === "This week") {
+      const mainProjectName = taskName.split("(")[1].split(")")[0];
+      const mainTaskName = taskName.split(" ")[0];
+      Storage.renameTask(
+        projectName,
+        taskName,
+        newTaskName + ` (${mainProjectName})`
+      );
+      Storage.renameTask(mainProjectName, mainTaskName, newTaskName);
+    } else {
+      Storage.renameTask(projectName, taskName, newTaskName);
+    }
     UI.clearTasks();
     UI.loadTasks(projectName);
     UI.closeRenameInput(this.parentNode.parentNode);
@@ -346,7 +369,15 @@ if (projectName !== "Today" && projectName !== "This week") {
     const projectName = document.getElementById("project-name").textContent;
     const taskName = taskButton.children[0].children[1].textContent;
     const newDueDate = this.value;
-    Storage.setTaskDate(projectName, taskName, newDueDate);
+    if (projectName === "Today" || projectName === "This week") {
+      const mainProjectName = taskName.split("(")[1].split(")")[0];
+      const mainTaskName = taskName.split(" ")[0];
+      Storage.setTaskDate(projectName, taskName, newDueDate);
+      Storage.setTaskDate(mainProjectName, mainTaskName, newDueDate);
+    } else {
+      Storage.setTaskDate(projectName, taskName, newDueDate);
+    }
+    
     UI.clearTasks();
     UI.loadTasks(projectName);
     UI.closeSetDateInput(taskButton);
