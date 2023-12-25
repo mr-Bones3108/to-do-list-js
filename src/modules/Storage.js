@@ -21,7 +21,7 @@ export default class Storage {
       (project.tasks = project.tasks.map((task)=> 
       Object.assign(new Task(), task)))
     });
-    
+
     return todoList;
   }
 
@@ -58,6 +58,12 @@ export default class Storage {
   static setTaskDate(projectName, taskName, newDueDate) {
     const todoList = Storage.getTodoList();
     todoList.getProject(projectName).setTaskDate(taskName, newDueDate);
+    Storage.saveTodoList(todoList);
+  }
+
+  static updateTodayProject() {
+    const todoList = Storage.getTodoList();
+    todoList.updateTodayProject();
     Storage.saveTodoList(todoList);
   }
 }
